@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Courses</title>
+
+    <!-- Bootstrap -->
+    <link 
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" 
+        rel="stylesheet"
+    >
+
+    <style>
+        body {
+            background:#6a0dad;
+            min-height: 100vh;
+            padding: 40px;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+
+        .top-buttons {
+            position: absolute;
+            right: 30px;
+            top: 25px;
+        }
+
+        .top-buttons a {
+            margin-left: 10px;
+            padding: 8px 16px;
+            border-radius: 20px;
+        }
+
+        .search-container {
+            max-width: 700px;
+            margin: 80px auto 30px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(6px);
+            box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+        }
+
+        h2 {
+            text-align: center;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .result-card {
+            background: white;
+            color: #333;
+            border-radius: 15px;
+            padding: 18px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+            transition: transform 0.2s;
+        }
+
+        .result-card:hover {
+            transform: translateY(-4px);
+        }
+
+        select {
+            border-radius: 10px;
+            padding: 4px 6px;
+        }
+
+        button {
+            margin-top: 12px;
+            border-radius: 25px !important;
+            padding: 8px 20px !important;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .back-link a {
+            color: #ffdfff;
+            font-weight: bold;
+            text-decoration: underline;
+        }
+    </style>
+
+</head>
+<body>
+
+    <!-- Top Right Navigation -->
+    <div class="top-buttons">
+        <a href="{% url 'recsys:dashboard' %}" class="btn btn-light">Dashboard</a>
+        <a href="{% url 'recsys:logout' %}" class="btn btn-danger">Logout</a>
+    </div>
+
+    <div class="search-container">
+        <h2>Search Courses</h2>
+
+        <!-- Search Form -->
+        <form method="GET" class="mb-3">
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-light">Search</button>
+        </form>
+    </div>
+
+
+    {% if searched %}
+        <div class="container mt-4" style="max-width: 800px;">
+
+            {% if results|length == 10 %}
+                <p class="text-center">Showing top 10 results...</p>
+            {% endif %}
+
+            <h3 class="text-center mb-4">Results</h3>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                {% for course in results %}
+                    <div class="result-card d-flex justify-content-between align-items-center">
+
+                        <div>
+                            <strong style="color:#4b0082;">{{ course.name }}</strong>
+                        </div>
+
+                        <div>
+                            <select name="rating_{{ course.id }}">
+                                <option value="">Rate</option>
+                                <option value="1">⭐</option>
+                                <option value="2">⭐⭐</option>
+                                <option value="3">⭐⭐⭐</option>
+                                <option value="4">⭐⭐⭐⭐</option>
+                                <option value="5">⭐⭐⭐⭐⭐</option>
+                            </select>
+                        </div>
+
+                    </div>
+                {% endfor %}
+
+                <button type="submit" class="btn btn-warning w-100 mt-3">
+                    Submit Ratings
+                </button>
+            </form>
+
+        </div>
+    {% endif %}
+
+
+    <div class="back-link">
+        <a href="{% url 'recsys:dashboard' %}">← Back to dashboard</a>
+    </div>
+
+</body>
+</html>

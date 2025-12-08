@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up - CourseCraft</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #6a0dad;
+            background-size: 300% 300%;
+            animation: gradientMove 10s ease infinite;
+            color: #fff;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .signup-container {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 40px 55px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            width: 400px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .signup-container h2 {
+            margin-bottom: 25px;
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .input-box {
+            width: 100%;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-box label {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .input-box input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            margin-top: 8px;
+            font-size: 16px;
+        }
+
+        .helptext {
+            font-size: 12px;
+            color: #f3e8ff;
+            margin-top: 5px;
+        }
+
+        ul.errorlist {
+            color: #ffdddd;
+            font-size: 12px;
+            margin: 0 0 10px 0;
+            padding-left: 15px;
+        }
+
+        .signup-btn {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            border: none;
+            background: #ffffff;
+            color: #4b0082;
+            font-size: 18px;
+            font-weight: 700;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        .signup-btn:hover {
+            transform: translateY(-3px);
+            background: #f0f0f0;
+        }
+
+        .login-link {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .login-link a {
+            color: #ffe6ff;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="signup-container">
+        <h2>Create Account</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+
+            <div class="input-box">
+                <label>Username</label>
+                {{ form.username }}
+                <div class="helptext">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</div>
+            </div>
+
+            <div class="input-box">
+                <label>Password</label>
+                {{ form.password1 }}
+                <div class="helptext">
+                    Your password must contain at least 8 characters,<br>
+                    cannot be too common or fully numeric,<br>
+                    and cannot be too similar to your personal info.
+                </div>
+            </div>
+
+            <div class="input-box">
+                <label>Confirm Password</label>
+                {{ form.password2 }}
+                <div class="helptext">Enter the same password again for verification.</div>
+            </div>
+
+            <button type="submit" class="signup-btn">Sign Up</button>
+        </form>
+
+        <div class="login-link">
+            Already have an account? <a href="/login/">Log In</a>
+        </div>
+    </div>
+
+</body>
+</html>

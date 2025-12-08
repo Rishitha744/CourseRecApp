@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CourseCraft</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+            background:  #6a0dad;
+            background-size: 300% 300%;
+            animation: gradientMove 10s ease infinite;
+            color: #fff;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            font-size: 20px;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 40px;
+            letter-spacing: 1px;
+        }
+
+        .auth-buttons a {
+            text-decoration: none;
+            padding: 10px 20px;
+            margin-left: 15px;
+            border-radius: 25px;
+            background-color: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(8px);
+            color: white;
+            font-weight: 500;
+            transition: 0.3s ease;
+        }
+
+        .auth-buttons a:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .hero {
+            text-align: center;
+            margin-top: 120px;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: 50px;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 22px;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 15px 35px;
+            background-color: #ffffff;
+            color: #333;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.3s ease;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+
+
+<header>
+<div class="logo">CourseCraft</div>
+<div class="auth-buttons">
+{% if user.is_authenticated %}
+<a href="/logout/">Logout</a>
+{% else %}
+<a href="/login/">Login</a>
+<a href="/signup/">Sign Up</a>
+{% endif %}
+</div>
+</header>
+
+
+{% if messages %}
+<div class="message-box">
+{% for message in messages %}
+<div class="message">{{ message }}</div>
+{% endfor %}
+</div>
+{% endif %}
+
+
+<section class="hero">
+<h1>Find the Perfect Course for You</h1>
+<p>CourseCraft helps you discover courses tailored to your interests, skills, and career goals. Your personalized learning journey starts here.</p>
+<a class="cta-btn" href="/dashboard/">Get Recommendations</a>
+</section>
+
+
+</body>
+</html>
+
+

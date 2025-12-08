@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome Onboard</title>
+
+    <!-- Bootstrap CDN -->
+    <link 
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" 
+        rel="stylesheet"
+    >
+
+    <style>
+        body {
+            background: #6a0dad;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .onboarding-card {
+            background:  rgba(255, 255, 255, 0.15);
+            color: #f1f3f4;
+            border-radius: 16px;
+            padding: 35px;
+            width: 100%;
+            max-width: 580px;
+            box-shadow: 0 8px 18px rgba(162, 157, 157, 0.25);
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+
+        .title {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: #ecefef;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="onboarding-card">
+
+        <h2 class="title text-center mb-3">Welcome to Your Personalized Dashboard!</h2>
+        <p class="subtitle text-center mb-4">
+            To create better recommendations, tell us what topics interest you.  
+            Add multiple interests separated by commas.
+        </p>
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                {{ form.as_p }}
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 py-2">
+                Continue →
+            </button>
+
+            {% if messages %}
+                <div class="mt-3">
+                    {% for message in messages %}
+                        <div class="alert alert-info">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </form>
+    </div>
+
+</body>
+</html>
+

@@ -1,0 +1,4 @@
+*.pt
+*.sqlite3
+*.csv
+course_recommender/course_ratings_dataset.csv
