@@ -113,6 +113,7 @@ python manage.py migrate
 ```bash
 python manage.py runserver
 ```
+<img width="1917" height="867" alt="image" src="https://github.com/user-attachments/assets/77a686b7-73e4-4f30-8a27-66f64fe719ee" />
 
 ---
 
