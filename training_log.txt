@@ -13,4 +13,5 @@ Epoch 005  Train=0.5891  Val=0.8200  Test=0.8680
 Best Val RMSE = 0.8192 | Best Test RMSE = 0.8576
 
 Saved model weights: model_epoch.pt
-Saved full checkpoint: gcmc_full_epoch.pt
+
+Saved full checkpoint: gcn_full_epoch.pt
