@@ -12,8 +12,7 @@ Online course catalogs continue to grow, making it difficult for students to ide
 Traditional recommenders (content-based, collaborative filtering) struggle with **sparsity**, **limited personalization**,  
 and **lack of relational understanding** between users and courses.
 
-CourseCraft addresses these limitations using a **GCN encoder–decoder architecture** inspired by  
-Graph Convolutional Matrix Completion (GC-MC).  
+CourseCraft addresses these limitations using a **GCN encoder–decoder architecture** 
 The model achieves:
 
 - **1.5M user–course interactions** modeled as a graph  
@@ -56,7 +55,7 @@ Uses learned embeddings to predict a continuous rating score for unseen user–c
 - Mini-batch training for efficiency  
 - Validation/test RMSE tracked each epoch
 
-Final best model checkpoint: **gcmc_full_epoch1.pt**
+Final best model checkpoint: **gcn_full_epoch.pt**
 
 ---
 
