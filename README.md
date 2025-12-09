@@ -148,3 +148,30 @@ Pull requests and improvements are welcome!
 
 ---
 
+Recommendation modes:
+
+CourseCraft supports multiple recommendation modes, each implemented in recommender.py, allowing the system to adapt to users with different levels of interaction history:
+
+1. Cold-Start (Interest-Based)
+
+Used when a new user has no ratings.
+The system matches user-provided interest keywords with course descriptions and skill tags, assigning relevance scores to generate initial recommendations.
+
+2. Similarity-Based (User–User Filtering)
+
+Activated once the user has a small number of ratings.
+The system identifies other users who rated the same courses and recommends items that similar users rated highly.
+
+3. Hybrid Mode
+
+For users with 1–2 ratings, CourseCraft merges:
+
+Similarity-based recommendations
+
+Interest-based matches
+This provides more stable personalization during early usage.
+
+4. GCN-Based Model Recommendation
+
+For users with a valid user_idx in the trained graph, the system uses the Graph Convolutional Network to predict scores for all unseen courses using learned embeddings and a bilinear decoder.
+This is the most accurate and personalized mode.
