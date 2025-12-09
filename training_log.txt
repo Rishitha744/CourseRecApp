@@ -1,0 +1,16 @@
+Loading CSV dataset...
+Building graph...
+Initializing GCMC model...
+
+======== TRAINING STARTED ========
+
+Epoch 001  Train=0.6978  Val=0.8521  Test=0.8757
+Epoch 002  Train=0.5857  Val=0.8254  Test=0.8678
+Epoch 003  Train=0.6451  Val=1.1725  Test=1.2647
+Epoch 004  Train=0.6387  Val=0.8192  Test=0.8576
+Epoch 005  Train=0.5891  Val=0.8200  Test=0.8680
+
+Best Val RMSE = 0.8192 | Best Test RMSE = 0.8576
+
+Saved model weights: model_epoch.pt
+Saved full checkpoint: gcmc_full_epoch.pt
