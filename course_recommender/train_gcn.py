@@ -215,7 +215,7 @@ def main(args):
                 "epoch": epoch,
                 "best_val_rmse": best_val,
                 "best_test_rmse": best_test
-            }, "best_checkpoint.pt")
+            }, "gcn_full_epoch.pt")
 
             log(f"Saved best checkpoint at epoch {epoch}: gcn_full_epoch.pt")
 
