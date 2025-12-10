@@ -2,12 +2,12 @@ import os
 import torch
 from django.conf import settings
 from recsys.models import Course
-from .gcmc_model import GCMC
+from .gcn_model import GCMC
 from recsys.models import Rating, Course
 from django.db.models import Q
 
 # Load checkpoint
-MODEL_PATH = os.path.join(settings.GCMC_MODEL_PATH, "gcmc_full_epoch1.pt")
+MODEL_PATH = os.path.join(settings.GCMC_MODEL_PATH, "gcn_full_epoch.pt")
 checkpoint = torch.load(MODEL_PATH, map_location="cpu")
 
 model_state = checkpoint["model_state"]
