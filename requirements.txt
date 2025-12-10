@@ -1,2 +1,4 @@
 django
 torch
+numpy
+pandas
