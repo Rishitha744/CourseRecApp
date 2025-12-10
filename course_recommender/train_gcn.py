@@ -7,12 +7,19 @@ import torch.nn.functional as F
 from torch.utils.data import DataLoader
 
 # Import model + utilities from recsys app
-from recsys.gcmc_model import (
+from recsys.gcn_model import (
     TriplesDataset,
     load_triples_from_csv,
     build_edge_lists,
     GCMC
 )
+
+LOG_FILE = "training_log.txt"
+
+def log(msg):
+    print(msg)
+    with open(LOG_FILE, "a", encoding="utf-8") as f:
+        f.write(msg + "\n")
 
 # ---------------------------
 # Safe batch helper
@@ -107,9 +114,14 @@ def evaluate(model, dataset_edges, edges_by_rating, deg_user, deg_item,
 # ---------------------------
 # Main training logic
 # ---------------------------
+
 def main(args):
 
-    print("Loading CSV dataset...")
+    # reset log
+    with open(LOG_FILE, "w") as f:
+        f.write(f"Training started at {datetime.datetime.now()}\n\n")
+
+    log("Loading CSV dataset...")
     triples_idx, user2idx, item2idx, R = load_triples_from_csv(
         args.data, args.user_col, args.item_col, args.rating_col, sep=args.sep
     )
@@ -126,7 +138,7 @@ def main(args):
     val_triples   = triples_idx[ntrain:ntrain+nval]
     test_triples  = triples_idx[ntrain+nval:]
 
-    print("Building graph...")
+    log("Building graph...")
     edges_by_rating, deg_user, deg_item = build_edge_lists(
         train_triples, num_users, num_items, R
     )
@@ -137,7 +149,7 @@ def main(args):
 
     device = torch.device("cuda" if torch.cuda.is_available() and not args.cpu else "cpu")
 
-    print("Initializing GCMC model...")
+    log("Initializing GCMC model...")
     model = GCMC(
         num_users=num_users,
         num_items=num_items,
@@ -154,8 +166,9 @@ def main(args):
 
     best_val = float("inf")
     best_test = float("inf")
+    best_epoch = -1
 
-    print("\n======== TRAINING STARTED ========\n")
+    log("\n======== TRAINING STARTED ========\n")
 
     for epoch in range(1, args.epochs + 1):
 
@@ -175,13 +188,22 @@ def main(args):
             batch_size=args.batch_size, device=device
         )
 
-        print(f"Epoch {epoch:03d}  Train={train_loss:.4f}  Val={val_rmse:.4f}  Test={test_rmse:.4f}")
+        msg = f"Epoch {epoch:03d}  Train={train_loss:.4f}  Val={val_rmse:.4f}  Test={test_rmse:.4f}"
+        log(msg)
 
-        # Save checkpoint after first epoch
-        if epoch == 1:
-            torch.save(model.state_dict(), "model_epoch1.pt")
-            print("✔ Saved model weights: model_epoch1.pt")
+        # -----------------------------------------------------------------
+        # SAVE ONLY WHEN VAL RMSE IMPROVES (BEST EPOCH), NOT EPOCH 1
+        # -----------------------------------------------------------------
+        if val_rmse < best_val:
+            best_val = val_rmse
+            best_test = test_rmse
+            best_epoch = epoch
 
+            # Save model weights
+            torch.save(model.state_dict(), "model_epoch.pt")
+            log(f"Saved best model weights at epoch {epoch}: model_epoch.pt")
+
+            # Save full checkpoint
             torch.save({
                 "model_state": model.state_dict(),
                 "user2idx": user2idx,
@@ -189,15 +211,20 @@ def main(args):
                 "R": R,
                 "edges_by_rating": edges_by_rating,
                 "deg_user": deg_user,
-                "deg_item": deg_item
-            }, "gcmc_full_epoch1.pt")
-            print("✔ Saved full checkpoint: gcmc_full_epoch1.pt")
+                "deg_item": deg_item,
+                "epoch": epoch,
+                "best_val_rmse": best_val,
+                "best_test_rmse": best_test
+            }, "best_checkpoint.pt")
 
-        if val_rmse < best_val:
-            best_val = val_rmse
-            best_test = test_rmse
+            log(f"Saved best checkpoint at epoch {epoch}: gcn_full_epoch.pt")
 
-    print(f"\nBest Val RMSE = {best_val:.4f} | Best Test RMSE = {best_test:.4f}\n")
+    log("\n======== TRAINING COMPLETE ========\n")
+    log(f"Best Epoch = {best_epoch}")
+    log(f"Best Val RMSE = {best_val:.4f}")
+    log(f"Best Test RMSE = {best_test:.4f}\n")
+    log(f"Training finished at {datetime.datetime.now()}")
+    
 
 # ---------------------------
 # Args class
