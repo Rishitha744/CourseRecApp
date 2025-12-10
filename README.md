@@ -66,15 +66,15 @@ CourseRecApp/
 ├── course_recommender/
 │   ├── recsys/
 │   │   ├── model/                 
-│   │   ├── gcmc_model.py          
+│   │   ├── gcn_model.py          
 │   │   ├── recommender.py         
 │   │   ├── models.py              
 │   │   ├── views.py               
 │   │   ├── forms.py               
 │   │   └── templates/recsys/      
 │   │
-│   ├── train_gcmc.py              
-│   ├── gcmc_full_epoch1.pt        
+│   ├── train_gcn.py              
+│   ├── gcn_full_epoch.pt        
 │   ├── course_ratings_dataset.csv 
 │   └── db.sqlite3                 
 │
